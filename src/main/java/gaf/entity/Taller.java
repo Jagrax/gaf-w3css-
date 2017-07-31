@@ -15,24 +15,20 @@ public class Taller implements Serializable {
     private Long id;
 
     @NotNull
-    @Size(min = 1, max = 255)
     private String name;
 
     @NotNull
-    @Size(min = 1, max = 255)
     private String address;
 
-    @Size(max = 20)
     @Column(name = "primary_phone")
     private String primaryPhone;
 
-    @Size(max = 20)
     @Column(name = "secondary_phone")
     private String secondaryPhone;
 
     @NotNull
-    @Column(name = "quantity_employees")
-    private Integer quantityEmployees;
+    @Column(name = "employees_quantity")
+    private Integer employeesQuantity;
 
     @NotNull
     @Column(name = "estado")
@@ -78,12 +74,12 @@ public class Taller implements Serializable {
         this.secondaryPhone = secondaryPhone;
     }
 
-    public Integer getQuantityEmployees() {
-        return quantityEmployees;
+    public Integer getEmployeesQuantity() {
+        return employeesQuantity;
     }
 
-    public void setQuantityEmployees(Integer quantityEmployees) {
-        this.quantityEmployees = quantityEmployees;
+    public void setEmployeesQuantity(Integer quantityEmployees) {
+        this.employeesQuantity = quantityEmployees;
     }
 
     public Integer getEstadoId() {

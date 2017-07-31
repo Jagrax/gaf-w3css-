@@ -15,11 +15,9 @@ public class Estado implements Serializable {
     private Integer id;
 
     @NotNull
-    @Size(min = 1, max = 20)
     private String name;
 
     @NotNull
-    @Size(min = 1, max = 20)
     private String color;
 
     public Integer getId() {
