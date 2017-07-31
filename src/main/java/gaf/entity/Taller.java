@@ -22,11 +22,11 @@ public class Taller implements Serializable {
     @Size(min = 1, max = 255)
     private String address;
 
-    @Size(min = 1, max = 20)
+    @Size(max = 20)
     @Column(name = "primary_phone")
     private String primaryPhone;
 
-    @Size(min = 1, max = 20)
+    @Size(max = 20)
     @Column(name = "secondary_phone")
     private String secondaryPhone;
 
@@ -34,9 +34,9 @@ public class Taller implements Serializable {
     @Column(name = "quantity_employees")
     private Integer quantityEmployees;
 
-    /*@NotNull
-    @OneToOne(cascade = CascadeType.ALL,mappedBy = "Estados")
-    private Estado idEstado;*/
+    @NotNull
+    @Column(name = "estado")
+    private Integer estadoId;
 
     public Long getId() {
         return id;
@@ -85,12 +85,12 @@ public class Taller implements Serializable {
     public void setQuantityEmployees(Integer quantityEmployees) {
         this.quantityEmployees = quantityEmployees;
     }
-/*
-    public Estado getIdEstado() {
-        return idEstado;
+
+    public Integer getEstadoId() {
+        return estadoId;
     }
 
-    public void setIdEstado(Estado idEstado) {
-        this.idEstado = idEstado;
-    }*/
+    public void setEstadoId(Integer estadoId) {
+        this.estadoId = estadoId;
+    }
 }

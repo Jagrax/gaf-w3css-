@@ -1,0 +1,20 @@
+CREATE DATABASE gafdb;
+
+CREATE TABLE Estados (
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(20) NOT NULL,
+	color VARCHAR(20) NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE Talleres (
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(255) NOT NULL,
+	address VARCHAR(255) NOT NULL,
+	primary_phone VARCHAR(20),
+	secondary_phone VARCHAR(20),
+	quantity_employees INT NOT NULL,
+	estado INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (estado) REFERENCES Estados(id)
+);
