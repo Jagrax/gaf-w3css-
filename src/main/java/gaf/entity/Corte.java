@@ -35,7 +35,7 @@ public class Corte implements Serializable {
 
     @NotNull
     @Column(name = "taller")
-    private Integer tallerId;
+    private Long tallerId;
 
     @NotNull
     @Column(name = "from_size")
@@ -107,11 +107,11 @@ public class Corte implements Serializable {
         this.price = price;
     }
 
-    public Integer getTallerId() {
+    public Long getTallerId() {
         return tallerId;
     }
 
-    public void setTallerId(Integer tallerId) {
+    public void setTallerId(Long tallerId) {
         this.tallerId = tallerId;
     }
 

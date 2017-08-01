@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                template="/WEB-INF/templates/w3_interior_design.xhtml">
+    <ui:define name="content">
+        <div class="w3-container" style="margin-top:80px">
+            <button onclick="document.getElementById('createEstadoModal').style.display='block'" class="w3-button">Crear estado</button>
+
+            <div id="createEstadoModal" class="w3-modal">
+                <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+                    <br/>
+                    <span onclick="document.getElementById('createEstadoModal').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Cerrar">&times;</span>
+                    <h:form id="reg" styleClass="w3-container">
+                        <div class="w3-section">
+                            <label><b>Nombre</b></label>
+                            <h:inputText id="name" value="#{newEstado.name}" required="true" requiredMessage="Este campo es necesario" styleClass="w3-input w3-border w3-margin-bottom" a:required="true"/>
+                            <label><b>Color</b></label>
+                            <h:inputText id="color" value="#{newEstado.color}" required="true" requiredMessage="Este campo es necesario" styleClass="w3-input w3-border w3-margin-bottom" a:required="true"/>
+                            <h:commandButton id="createEstado" action="#{estadoController.create}" value="Crear" styleClass="w3-button w3-block w3-green w3-section w3-padding" />
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+
+            <h:dataTable var="_estado" value="#{estadoController.allEstados}" styleClass="w3-card-4 w3-table w3-striped w3-bordered">
+                <h:column><f:facet name="header">Id</f:facet>#{_estado.id}</h:column>
+                <h:column><f:facet name="header">Nombre</f:facet>#{_estado.name}</h:column>
+                <h:column><f:facet name="header">Color</f:facet>#{_estado.color}</h:column>
+            </h:dataTable>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

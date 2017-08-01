@@ -2,7 +2,6 @@ package gaf.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
@@ -27,8 +26,8 @@ public class Taller implements Serializable {
     private String secondaryPhone;
 
     @NotNull
-    @Column(name = "employees_quantity")
-    private Integer employeesQuantity;
+    @Column(name = "quantity_employees")
+    private Integer quantityEmployees;
 
     @NotNull
     @Column(name = "estado")
@@ -74,12 +73,12 @@ public class Taller implements Serializable {
         this.secondaryPhone = secondaryPhone;
     }
 
-    public Integer getEmployeesQuantity() {
-        return employeesQuantity;
+    public Integer getQuantityEmployees() {
+        return quantityEmployees;
     }
 
-    public void setEmployeesQuantity(Integer quantityEmployees) {
-        this.employeesQuantity = quantityEmployees;
+    public void setQuantityEmployees(Integer quantityEmployees) {
+        this.quantityEmployees = quantityEmployees;
     }
 
     public Integer getEstadoId() {

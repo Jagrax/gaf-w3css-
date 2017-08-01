@@ -25,4 +25,13 @@ public class TallerService {
         em.persist(taller);
     }
 
+    public List<Taller> findTalleresDisponibles() {
+        return em.createQuery("from Taller where estado = (select id from Estado where name = 'Disponible')").getResultList();
+    }
+
+    public void updateEstado(Long tallerId, Integer estadoId) {
+        Taller taller = em.find(Taller.class, tallerId);
+        taller.setEstadoId(estadoId);
+        em.merge(taller);
+    }
 }
