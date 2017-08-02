@@ -8,23 +8,25 @@ import gaf.service.TallerService;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 @Model
-public class TallerController {
+public class TallerController implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    @Inject
-    private FacesContext facesContext;
+    private List<Taller> lstTalleres;
+    private Taller taller = new Taller();
+    private Taller beforeEditTaller = null;
+    private boolean editable;
 
-    @Inject
-    private TallerService tallerService;
-
-    @Inject
-    private EstadoService estadoService;
+    @Inject private FacesContext facesContext;
+    @Inject private TallerService tallerService;
+    @Inject private EstadoService estadoService;
 
     @Produces
     @Named
@@ -34,9 +36,63 @@ public class TallerController {
 
     @PostConstruct
     public void init() {
-        newTaller = new Taller();
+        lstTalleres = tallerService.findAll();
     }
 
+    public void add() {
+        try {
+            tallerService.create(taller);
+            lstTalleres.add(taller);
+            taller = new Taller();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void resetAdd() {
+        taller = new Taller();
+    }
+
+    public void edit(Taller taller) {
+        beforeEditTaller = taller;
+        this.taller = taller;
+        editable = true;
+    }
+
+    public void cancelEdit() {
+        this.taller = beforeEditTaller;
+        this.taller = new Taller();
+        editable = false;
+    }
+
+    public void guardarEdicion() {
+        try {
+            System.out.println("Guardando taller " + taller.toString());
+            tallerService.update(taller);
+            this.taller = new Taller();
+            editable = false;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(Taller taller) throws IOException {
+        tallerService.delete(taller);
+        lstTalleres.remove(taller);
+    }
+
+    public List<Taller> getLstTalleres() {
+        return lstTalleres;
+    }
+
+    public Taller getTaller() {
+        return this.taller;
+    }
+
+    public boolean isEditable() {
+        return this.editable;
+    }
+/*
     public void create() throws Exception {
         try {
             tallerService.create(newTaller);
@@ -62,5 +118,5 @@ public class TallerController {
             System.err.println("Se produjo un error al buscar los estados. " + e.getMessage());
         }
     }
-
+*/
 }

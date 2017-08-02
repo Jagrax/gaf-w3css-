@@ -44,6 +44,31 @@ public class EstadoController {
         }
     }
 
+    public void editEstado(Estado estado, boolean save) {
+        try {
+            if (save) {
+                estadoService.update(newEstado);
+                populateAllEstados();
+            } else {
+                newEstado = estado;
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void deleteEstado(Estado estado) throws Exception {
+        try {
+            estadoService.delete(estado);
+            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Estado '" + estado.getName() + "' eliminado correctamente.", "El estado " + estado.getName() + "(" + estado.getId() + ") fue eliminado correctamente.");
+            facesContext.addMessage(null, m);
+            populateAllEstados();
+        } catch (Exception e) {
+            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), "Registration unsuccessful");
+            facesContext.addMessage(null, m);
+        }
+    }
+
     public List<Estado> getAllEstados() {
         if (allEstados == null) {
             populateAllEstados();

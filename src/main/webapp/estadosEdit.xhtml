@@ -14,6 +14,11 @@
                 template="/WEB-INF/templates/w3_interior_design.xhtml">
     <ui:define name="content">
         <div class="w3-container" style="margin-top:80px">
+
+            <h:form rendered="#{not empty estadoController.allEstados}">
+
+            </h:form>
+
             <button onclick="document.getElementById('createEstadoModal').style.display='block'" class="w3-button">Crear estado</button>
 
             <div id="createEstadoModal" class="w3-modal">
@@ -27,16 +32,24 @@
                             <label><b>Color</b></label>
                             <h:inputText id="color" value="#{newEstado.color}" required="true" requiredMessage="Este campo es necesario" styleClass="w3-input w3-border w3-margin-bottom" a:required="true"/>
                             <h:commandButton id="createEstado" action="#{estadoController.create}" value="Crear" styleClass="w3-button w3-block w3-green w3-section w3-padding" />
+                            <h:commandButton id="updateEstado" action="#{estadoController.editEstado(_estado, true)}" value="Guardar" styleClass="w3-button w3-block w3-green w3-section w3-padding" />
                         </div>
                     </h:form>
                 </div>
             </div>
 
-            <h:dataTable var="_estado" value="#{estadoController.allEstados}" styleClass="w3-card-4 w3-table w3-striped w3-bordered">
-                <h:column><f:facet name="header">Id</f:facet>#{_estado.id}</h:column>
-                <h:column><f:facet name="header">Nombre</f:facet>#{_estado.name}</h:column>
-                <h:column><f:facet name="header">Color</f:facet>#{_estado.color}</h:column>
-            </h:dataTable>
+            <h:form id="edit">
+                <h:dataTable var="_estado" value="#{estadoController.allEstados}" styleClass="w3-card-4 w3-table w3-striped w3-bordered">
+                    <h:column><f:facet name="header">Id</f:facet>#{_estado.id}</h:column>
+                    <h:column><f:facet name="header">Nombre</f:facet>#{_estado.name}</h:column>
+                    <h:column><f:facet name="header">Color</f:facet>#{_estado.color}</h:column>
+                    <h:column>
+                        <f:facet name="header">Acciones</f:facet>
+                        <h:commandLink id="editEstado" action="#{estadoController.editEstado(_estado, false)}" styleClass="w3-button w3-green w3-round" onclick="document.getElementById('createEstadoModal').style.display='block'"><i class="fa fa-edit"></i></h:commandLink>
+                        <h:commandLink id="deleteEstado" action="#{estadoController.deleteEstado(_estado)}" styleClass="w3-button w3-red w3-round"><i class="fa fa-trash"></i></h:commandLink>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
         </div>
     </ui:define>
 </ui:composition>

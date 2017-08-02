@@ -26,4 +26,12 @@ public class EstadoService {
         return em.createQuery("from Estado").getResultList();
     }
 
+    public void delete(Estado estado) {
+        log.info("Deleting " + estado.getName());
+        em.remove(em.contains(estado) ? estado : em.merge(estado));
+    }
+
+    public void update(Estado estado) {
+        em.merge(estado);
+    }
 }

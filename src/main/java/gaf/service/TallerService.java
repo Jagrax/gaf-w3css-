@@ -34,4 +34,24 @@ public class TallerService {
         taller.setEstadoId(estadoId);
         em.merge(taller);
     }
+
+    public List<Taller> findAll() {
+        List<Taller> result;
+        try {
+            result = em.createQuery("from Taller").getResultList();
+        } catch (Exception e) {
+            log.info("Se produjo un error al buscar todos los talleres. " + e.getMessage());
+            result = new ArrayList<>();
+        }
+        return result;
+    }
+
+    public void delete(Taller taller) {
+        log.info("Eliminando el taller " + taller.getName() + "[id=" + taller.getId() + "]");
+        em.remove(em.contains(taller) ? taller : em.merge(taller));
+    }
+
+    public void update(Taller taller) {
+        em.merge(taller);
+    }
 }

@@ -1,58 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                template="/WEB-INF/templates/w3_interior_design.xhtml">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<ui:composition template="/WEB-INF/templates/w3_interior_design.xhtml">
     <ui:define name="content">
-        <h:form id="reg">
-            <h2>Taller Registration</h2>
-            <p>Enforces annotation-based constraints defined on the
-                model class.</p>
-            <h:panelGrid columns="3" columnClasses="titleCell">
-                <h:outputLabel for="name" value="Name:" />
-                <h:inputText id="name" value="#{newTaller.name}" required="true" />
-                <h:message for="name" errorClass="invalid" />
+        <div class="w3-card-4 w3-half">
+            <div class="w3-container w3-red"><h3>Nuevo taller</h3></div>
+            <h:form styleClass="w3-container">
+                <p>
+                    <h:outputLabel for="name" value="Nombre:"/>
+                    <h:inputText id="name" value="#{newTaller.name}" a:required="true" styleClass="w3-input" />
+                </p>
+                <p>
+                    <h:outputLabel for="address" value="Dirección:"/>
+                    <h:inputText id="address" value="#{newTaller.address}" a:required="true" styleClass="w3-input" />
+                </p>
+                <p>
+                    <h:outputLabel for="name" value="First name"/>
+                    <h:inputText id="name" value="#{newTaller.name}" a:required="true" styleClass="w3-input" />
+                </p>
+                <p>
+                    <h:outputLabel for="name" value="First name"/>
+                    <h:inputText id="name" value="#{newTaller.name}" a:required="true" styleClass="w3-input" />
+                </p>
+                <p>
+                    <h:outputLabel for="name" value="First name"/>
+                    <h:inputText id="name" value="#{newTaller.name}" a:required="true" styleClass="w3-input" />
+                </p>
+                <p>
+                    <h:outputLabel for="name" value="First name"/>
+                    <h:inputText id="name" value="#{newTaller.name}" a:required="true" styleClass="w3-input" />
+                </p>
+            </h:form>
+        </div>
 
-                <h:outputLabel for="address" value="Dirección:" />
-                <h:inputText id="address" value="#{newTaller.address}" required="true" />
-                <h:message for="address" errorClass="invalid" />
 
-                <h:outputLabel for="quantityEmployees" value="Cant. de empleados:" />
-                <h:inputText id="quantityEmployees" value="#{newTaller.quantityEmployees}" required="true"/>
-                <h:message for="quantityEmployees" errorClass="invalid" />
+        <h:form>
+            <h3>List talleres</h3>
+            <h:form rendered="#{not empty tallerController.lstTalleres}">
+                <h:dataTable value="#{tallerController.lstTalleres}" var="_taller">
+                    <h:column><f:facet name="header">ID</f:facet>#{_taller.id}</h:column>
+                    <h:column><f:facet name="header">Name</f:facet>#{_taller.name}</h:column>
+                    <h:column>
+                        <h:commandButton value="edit" action="#{tallerController.edit(_taller)}"/>
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="delete" action="#{tallerController.delete(_taller)}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
 
-                <h:outputLabel for="primaryPhone" value="Teléfono #1:" />
-                <h:inputText id="primaryPhone" value="#{newTaller.primaryPhone}" />
-                <h:message for="primaryPhone" errorClass="invalid" />
+            <h:panelGroup rendered="#{empty tallerController.lstTalleres}">
+                <p>No students! Please add students.</p>
+            </h:panelGroup>
 
-                <h:outputLabel for="secondaryPhone" value="Teléfono #2:" />
-                <h:inputText id="secondaryPhone" value="#{newTaller.secondaryPhone}" />
-                <h:message for="secondaryPhone" errorClass="invalid" />
+            <h:panelGroup rendered="#{!tallerController.editable}" styleClass="w3-card-2 w3-half">
+                <h3>Add taller</h3>
+                <p>Name: <h:inputText value="#{tallerController.taller.name}"/></p>
+                <p>
+                    <h:commandButton value="add" action="#{tallerController.add}"/>
+                    <h:commandButton value="reset" action="#{tallerController.resetAdd}"/>
+                </p>
+            </h:panelGroup>
 
-                <h:outputLabel for="estado" value="Estado:" />
-                <h:selectOneMenu id="estado" value="#{newTaller.estadoId}" styleClass="w3-select">
-                    <f:selectItems value="#{tallerController.estados}" var="estado" itemValue="#{estado.id}" itemLabel="#{estado.name}" />
-                </h:selectOneMenu>
-                <h:message for="estado" errorClass="invalid" />
-            </h:panelGrid>
-
-            <p>
-                <h:panelGrid columns="2">
-                    <h:commandButton id="register"
-                                     action="#{tallerController.create}"
-                                     value="Register" styleClass="register" />
-                    <h:messages styleClass="messages"
-                                errorClass="invalid" infoClass="valid"
-                                warnClass="warning" globalOnly="true" />
-                </h:panelGrid>
-            </p>
+            <h:panelGroup rendered="#{tallerController.editable}">
+                <h3>Edit taller #{tallerController.taller.id}</h3>
+                <p>Name: <h:inputText value="#{tallerController.taller.name}"/></p>
+                <p>
+                    <h:commandButton value="save" action="#{tallerController.guardarEdicion}"/>
+                    <h:commandButton value="cancel" action="#{tallerController.cancelEdit}"/>
+                </p>
+            </h:panelGroup>
         </h:form>
     </ui:define>
 </ui:composition>
