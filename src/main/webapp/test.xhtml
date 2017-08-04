@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/w3css_templates_analytics.xhtml">
+    <ui:define name="content">
+        <div class="w3-container">
+            <h5>Talleres</h5>
+            <button class="w3-button w3-dark-grey"><i class="fa fa-plus"></i>  Agregar taller</button><br/>
+            <h:dataTable value="#{testController.lstTalleres}" var="taller" styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white" rendered="#{not empty testController.lstTalleres}">
+                <h:column>
+                    <f:facet name="header">Id</f:facet>
+                    #{taller.id}
+                </h:column>
+            </h:dataTable>
+
+            <h:panelGroup rendered="#{empty testController.lstTalleres}" styleClass="w3-block w3-border w3-border-yellow w3-pale-yellow w3-padding w3-margin-top w3-margin-bottom w3-round">
+                No se encontraron talleres
+            </h:panelGroup>
+        </div>
+    </ui:define>
+</ui:composition>
