@@ -3,21 +3,41 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 template="/WEB-INF/templates/w3css_templates_analytics.xhtml">
     <ui:define name="content">
-        <div class="w3-container">
-            <h5>Talleres</h5>
-            <button class="w3-button w3-dark-grey"><i class="fa fa-plus"></i>  Agregar taller</button><br/>
-            <h:dataTable value="#{testController.lstTalleres}" var="taller" styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white" rendered="#{not empty testController.lstTalleres}">
-                <h:column>
-                    <f:facet name="header">Id</f:facet>
-                    #{taller.id}
-                </h:column>
-            </h:dataTable>
+            <div class="w3-container">
+                <h5>Estados</h5>
+                <button class="w3-button w3-margin-bottom w3-blue" onclick="document.getElementById('add').style.display='block'"><i class="fa fa-plus"></i>  Agregar estado</button>
 
-            <h:panelGroup rendered="#{empty testController.lstTalleres}" styleClass="w3-block w3-border w3-border-yellow w3-pale-yellow w3-padding w3-margin-top w3-margin-bottom w3-round">
-                No se encontraron talleres
-            </h:panelGroup>
-        </div>
+                <div id="add" class="w3-modal">
+                    <div class="w3-modal-content w3-card-4 w3-animate-zoom">
+                        <header class="w3-container w3-blue">
+                            <span onclick="document.getElementById('add').style.display='none'" class="w3-button w3-display-topright w3-hover-red" title="Cerrar ventana"><i class="fa fa-remove fa-fw"></i></span>
+                            <h4>Nuevo estado</h4>
+                        </header>
+                        <h:form styleClass="w3-container w3-padding-small">
+                            <label>Nombre</label>
+                            <h:inputText id="name" value="#{estadoController.estado.name}" a:required="true" styleClass="w3-input w3-margin-bottom" />
+
+                            <label>Color</label>
+                            <h:inputText id="color" value="#{estadoController.estado.color}" a:required="true" styleClass="w3-input w3-margin-bottom" />
+                            <h:commandButton action="#{estadoController.create}" styleClass="w3-btn w3-block w3-blue" value="Crear" />
+                        </h:form>
+                    </div>
+                </div>
+
+                <h:form>
+                    <h:dataTable value="#{estadoController.lstEstados}" var="estado" styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom" rendered="#{not empty estadoController.lstEstados}"
+                                headerClass="w3-blue w3-center">
+                        <h:column><f:facet name="header">Estado</f:facet>#{estado.name}</h:column>
+                        <h:column><f:facet name="header">Color</f:facet><h:outputText value="#{estado.color}" styleClass="w3-block w3-center w3-text-#{estado.color}" /></h:column>
+                    </h:dataTable>
+                </h:form>
+
+                <h:panelGroup rendered="#{empty estadoController.lstEstados}" styleClass="w3-block w3-border w3-border-yellow w3-pale-yellow w3-padding w3-margin-bottom w3-round">
+                    No se encontraron talleres
+                </h:panelGroup>
+            </div>
     </ui:define>
 </ui:composition>

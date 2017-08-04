@@ -1,56 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-                template="/WEB-INF/templates/w3_interior_design.xhtml">
+                template="/WEB-INF/templates/w3css_templates_analytics.xhtml">
     <ui:define name="content">
-        <div class="w3-container" style="margin-top:80px">
+        <div class="w3-container">
+            <h5>Estados</h5>
+            <!--<button class="w3-button w3-margin-bottom w3-blue" onclick="document.getElementById('add').style.display='block'"><i class="fa fa-plus"></i>  Agregar estado</button>-->
 
-            <h:form rendered="#{not empty estadoController.allEstados}">
+            <div id="add" class="w3-modal">
+                <div class="w3-modal-content w3-card-4 w3-animate-zoom">
+                    <header class="w3-container w3-blue">
+                        <span onclick="document.getElementById('add').style.display='none'" class="w3-button w3-display-topright w3-hover-red" title="Cerrar ventana"><i class="fa fa-remove fa-fw"></i></span>
+                        <h4>Nuevo estado</h4>
+                    </header>
+                    <h:form styleClass="w3-container w3-padding-small">
+                        <label>Nombre</label>
+                        <h:inputText id="name" value="#{estadoController.estado.name}" a:required="true" styleClass="w3-input w3-margin-bottom" />
 
-            </h:form>
-
-            <button onclick="document.getElementById('createEstadoModal').style.display='block'" class="w3-button">Crear estado</button>
-
-            <div id="createEstadoModal" class="w3-modal">
-                <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
-                    <br/>
-                    <span onclick="document.getElementById('createEstadoModal').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Cerrar">&times;</span>
-                    <h:form id="reg" styleClass="w3-container">
-                        <div class="w3-section">
-                            <label><b>Nombre</b></label>
-                            <h:inputText id="name" value="#{newEstado.name}" required="true" requiredMessage="Este campo es necesario" styleClass="w3-input w3-border w3-margin-bottom" a:required="true"/>
-                            <label><b>Color</b></label>
-                            <h:inputText id="color" value="#{newEstado.color}" required="true" requiredMessage="Este campo es necesario" styleClass="w3-input w3-border w3-margin-bottom" a:required="true"/>
-                            <h:commandButton id="createEstado" action="#{estadoController.create}" value="Crear" styleClass="w3-button w3-block w3-green w3-section w3-padding" />
-                            <h:commandButton id="updateEstado" action="#{estadoController.editEstado(_estado, true)}" value="Guardar" styleClass="w3-button w3-block w3-green w3-section w3-padding" />
-                        </div>
+                        <label>Color</label>
+                        <h:inputText id="color" value="#{estadoController.estado.color}" a:required="true" styleClass="w3-input w3-margin-bottom" />
+                        <h:commandButton action="#{estadoController.create}" styleClass="w3-btn w3-block w3-blue" value="Crear" />
                     </h:form>
                 </div>
             </div>
 
-            <h:form id="edit">
-                <h:dataTable var="_estado" value="#{estadoController.allEstados}" styleClass="w3-card-4 w3-table w3-striped w3-bordered">
-                    <h:column><f:facet name="header">Id</f:facet>#{_estado.id}</h:column>
-                    <h:column><f:facet name="header">Nombre</f:facet>#{_estado.name}</h:column>
-                    <h:column><f:facet name="header">Color</f:facet>#{_estado.color}</h:column>
-                    <h:column>
-                        <f:facet name="header">Acciones</f:facet>
-                        <h:commandLink id="editEstado" action="#{estadoController.editEstado(_estado, false)}" styleClass="w3-button w3-green w3-round" onclick="document.getElementById('createEstadoModal').style.display='block'"><i class="fa fa-edit"></i></h:commandLink>
-                        <h:commandLink id="deleteEstado" action="#{estadoController.deleteEstado(_estado)}" styleClass="w3-button w3-red w3-round"><i class="fa fa-trash"></i></h:commandLink>
-                    </h:column>
+            <h:form>
+                <h:dataTable value="#{estadoController.lstEstados}" var="estado" styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom" rendered="#{not empty estadoController.lstEstados}"
+                             headerClass="w3-blue w3-center">
+                    <!-- <h:column><h:commandLink action="#{estadoController.delete(estado)}"><i class="fa fa-trash fa-fw"></i></h:commandLink></h:column> -->
+                    <h:column><f:facet name="header">Estado</f:facet>#{estado.name}</h:column>
+                    <h:column><f:facet name="header">Color</f:facet><h:outputText value="#{estado.color}" styleClass="w3-block w3-center w3-text-#{estado.color}" /></h:column>
                 </h:dataTable>
             </h:form>
+
+            <h:panelGroup rendered="#{empty estadoController.lstEstados}" styleClass="w3-block w3-border w3-border-yellow w3-pale-yellow w3-padding w3-margin-bottom w3-round">
+                No se encontraron talleres
+            </h:panelGroup>
         </div>
     </ui:define>
 </ui:composition>
-</html>

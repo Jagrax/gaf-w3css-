@@ -1,79 +1,76 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
-<ui:composition template="/WEB-INF/templates/w3_interior_design.xhtml">
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                template="/WEB-INF/templates/w3css_templates_analytics.xhtml">
     <ui:define name="content">
-        <div class="w3-card-4 w3-half">
-            <div class="w3-container w3-red"><h3>Nuevo taller</h3></div>
-            <h:form styleClass="w3-container">
-                <p>
-                    <h:outputLabel for="name" value="Nombre:"/>
-                    <h:inputText id="name" value="#{newTaller.name}" a:required="true" styleClass="w3-input" />
-                </p>
-                <p>
-                    <h:outputLabel for="address" value="Dirección:"/>
-                    <h:inputText id="address" value="#{newTaller.address}" a:required="true" styleClass="w3-input" />
-                </p>
-                <p>
-                    <h:outputLabel for="name" value="First name"/>
-                    <h:inputText id="name" value="#{newTaller.name}" a:required="true" styleClass="w3-input" />
-                </p>
-                <p>
-                    <h:outputLabel for="name" value="First name"/>
-                    <h:inputText id="name" value="#{newTaller.name}" a:required="true" styleClass="w3-input" />
-                </p>
-                <p>
-                    <h:outputLabel for="name" value="First name"/>
-                    <h:inputText id="name" value="#{newTaller.name}" a:required="true" styleClass="w3-input" />
-                </p>
-                <p>
-                    <h:outputLabel for="name" value="First name"/>
-                    <h:inputText id="name" value="#{newTaller.name}" a:required="true" styleClass="w3-input" />
-                </p>
-            </h:form>
-        </div>
+        <div class="w3-container">
+            <h5>Talleres</h5>
+            <button class="w3-button w3-margin-bottom w3-blue" onclick="document.getElementById('add').style.display='block'"><i class="fa fa-plus"></i>  Agregar taller</button>
 
+            <div id="add" class="w3-modal">
+                <div class="w3-modal-content w3-card-4 w3-animate-zoom">
+                    <header class="w3-container w3-blue">
+                        <span onclick="document.getElementById('add').style.display='none'" class="w3-button w3-display-topright w3-hover-red" title="Cerrar ventana"><i class="fa fa-remove fa-fw"></i></span>
+                        <h4>Nuevo taller</h4>
+                    </header>
+                    <h:form styleClass="w3-container w3-padding-small">
+                        <div class="w3-row">
+                            <div class="w3-container w3-half">
+                                <label>Nombre</label>
+                                <h:inputText id="name" value="#{tallerController.taller.name}" a:required="true" styleClass="w3-input w3-margin-bottom" />
+                            </div>
+                            <div class="w3-container w3-half">
+                                <label>Dirección</label>
+                                <h:inputText id="address" value="#{tallerController.taller.address}" a:required="true" styleClass="w3-input w3-margin-bottom" />
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-container w3-half">
+                                <label>Cantidad de empleados</label>
+                                <h:inputText id="quantityEmployees" value="#{tallerController.taller.quantityEmployees}" a:required="true" styleClass="w3-input w3-margin-bottom" />
+                            </div>
+                            <div class="w3-container w3-half">
+                                <label>Teléfono #1</label>
+                                <h:inputText id="primaryPhone" value="#{tallerController.taller.primaryPhone}" styleClass="w3-input w3-margin-bottom" />
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-container w3-half">
+                                <label>Teléfono #2</label>
+                                <h:inputText id="secondaryPhone" value="#{tallerController.taller.secondaryPhone}" styleClass="w3-input w3-margin-bottom" />
+                            </div>
+                            <div class="w3-container w3-half">
+                                <label>Estado</label>
+                                <h:selectOneMenu id="estadoId" styleClass="w3-select" value="#{tallerController.taller.estadoId}" a:required="true">
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione un estado" />
+                                    <f:selectItems value="#{tallerController.lstEstados}" var="estado" itemValue="#{estado.id}" itemLabel="#{estado.name}" />
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+                        <h:commandButton action="#{tallerController.create}" styleClass="w3-btn w3-block w3-blue w3-margin-top" value="Crear" />
+                    </h:form>
+                </div>
+            </div>
 
-        <h:form>
-            <h3>List talleres</h3>
-            <h:form rendered="#{not empty tallerController.lstTalleres}">
-                <h:dataTable value="#{tallerController.lstTalleres}" var="_taller">
-                    <h:column><f:facet name="header">ID</f:facet>#{_taller.id}</h:column>
-                    <h:column><f:facet name="header">Name</f:facet>#{_taller.name}</h:column>
-                    <h:column>
-                        <h:commandButton value="edit" action="#{tallerController.edit(_taller)}"/>
-                    </h:column>
-                    <h:column>
-                        <h:commandButton value="delete" action="#{tallerController.delete(_taller)}"/>
-                    </h:column>
+            <h:form>
+                <h:dataTable value="#{tallerController.lstTalleres}" var="taller" styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom" rendered="#{not empty tallerController.lstTalleres}"
+                             headerClass="w3-blue w3-center">
+                    <h:column><h:commandLink action="#{tallerController.delete(taller)}"><i class="fa fa-trash fa-fw"></i></h:commandLink></h:column>
+                    <h:column><f:facet name="header">Taller</f:facet>#{taller.name}</h:column>
+                    <h:column><f:facet name="header">Dirección</f:facet>#{taller.address}</h:column>
+                    <h:column><f:facet name="header">Cant. Empleados</f:facet><h:outputText value="#{taller.quantityEmployees}" styleClass="w3-right" /></h:column>
+                    <h:column><f:facet name="header">Teléfono #1</f:facet>#{taller.primaryPhone}</h:column>
+                    <h:column><f:facet name="header">Teléfono #2</f:facet>#{taller.secondaryPhone}</h:column>
+                    <h:column><f:facet name="header">Estado</f:facet><h:outputText styleClass="#{tallerController.getColor(taller)}" value="#{tallerController.getEstado(taller.estadoId).name}"/></h:column>
                 </h:dataTable>
             </h:form>
 
-            <h:panelGroup rendered="#{empty tallerController.lstTalleres}">
-                <p>No students! Please add students.</p>
+            <h:panelGroup rendered="#{empty tallerController.lstTalleres}" styleClass="w3-block w3-border w3-border-yellow w3-pale-yellow w3-padding w3-margin-bottom w3-round">
+                No se encontraron talleres
             </h:panelGroup>
-
-            <h:panelGroup rendered="#{!tallerController.editable}" styleClass="w3-card-2 w3-half">
-                <h3>Add taller</h3>
-                <p>Name: <h:inputText value="#{tallerController.taller.name}"/></p>
-                <p>
-                    <h:commandButton value="add" action="#{tallerController.add}"/>
-                    <h:commandButton value="reset" action="#{tallerController.resetAdd}"/>
-                </p>
-            </h:panelGroup>
-
-            <h:panelGroup rendered="#{tallerController.editable}">
-                <h3>Edit taller #{tallerController.taller.id}</h3>
-                <p>Name: <h:inputText value="#{tallerController.taller.name}"/></p>
-                <p>
-                    <h:commandButton value="save" action="#{tallerController.guardarEdicion}"/>
-                    <h:commandButton value="cancel" action="#{tallerController.cancelEdit}"/>
-                </p>
-            </h:panelGroup>
-        </h:form>
+        </div>
     </ui:define>
 </ui:composition>
-</html>

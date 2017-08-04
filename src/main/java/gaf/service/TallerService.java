@@ -20,7 +20,7 @@ public class TallerService {
     @Inject
     private EntityManager em;
 
-    public void create(Taller taller) throws Exception {
+    public void create(Taller taller) {
         log.info("Registering " + taller.getName());
         em.persist(taller);
     }

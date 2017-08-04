@@ -1,5 +1,8 @@
 package gaf.entity;
 
+import gaf.service.EstadoService;
+
+import javax.inject.Inject;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;

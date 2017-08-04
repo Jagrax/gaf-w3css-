@@ -7,116 +7,74 @@ import gaf.service.TallerService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
-import javax.enterprise.inject.Produces;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.List;
 
 @Model
-public class TallerController implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class TallerController {
 
     private List<Taller> lstTalleres;
-    private Taller taller = new Taller();
-    private Taller beforeEditTaller = null;
-    private boolean editable;
-
-    @Inject private FacesContext facesContext;
+    private List<Estado> lstEstados;
+    private Taller taller;
     @Inject private TallerService tallerService;
     @Inject private EstadoService estadoService;
-
-    @Produces
-    @Named
-    private Taller newTaller;
-
-    private List<Estado> estados;
 
     @PostConstruct
     public void init() {
         lstTalleres = tallerService.findAll();
-    }
-
-    public void add() {
-        try {
-            tallerService.create(taller);
-            lstTalleres.add(taller);
-            taller = new Taller();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void resetAdd() {
+        lstEstados = estadoService.findAll();
         taller = new Taller();
-    }
-
-    public void edit(Taller taller) {
-        beforeEditTaller = taller;
-        this.taller = taller;
-        editable = true;
-    }
-
-    public void cancelEdit() {
-        this.taller = beforeEditTaller;
-        this.taller = new Taller();
-        editable = false;
-    }
-
-    public void guardarEdicion() {
-        try {
-            System.out.println("Guardando taller " + taller.toString());
-            tallerService.update(taller);
-            this.taller = new Taller();
-            editable = false;
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void delete(Taller taller) throws IOException {
-        tallerService.delete(taller);
-        lstTalleres.remove(taller);
     }
 
     public List<Taller> getLstTalleres() {
         return lstTalleres;
     }
 
+    public void setLstTalleres(List<Taller> lstTalleres) {
+        this.lstTalleres = lstTalleres;
+    }
+
     public Taller getTaller() {
-        return this.taller;
+        return taller;
     }
 
-    public boolean isEditable() {
-        return this.editable;
-    }
-/*
-    public void create() throws Exception {
-        try {
-            tallerService.create(newTaller);
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
-            facesContext.addMessage(null, m);
-        } catch (Exception e) {
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), "Registration unsuccessful");
-            facesContext.addMessage(null, m);
-        }
+    public void setTaller(Taller taller) {
+        this.taller = taller;
     }
 
-    public List<Estado> getEstados() {
-        if (estados == null) {
-            populateEstados();
-        }
-        return estados;
+    public Estado getEstado(Integer id) {
+        return estadoService.find(id);
     }
 
-    private void populateEstados() {
-        try {
-            estados = estadoService.findAll();
-        } catch (Exception e) {
-            System.err.println("Se produjo un error al buscar los estados. " + e.getMessage());
+    public String getColor(Taller taller) {
+        Estado e = estadoService.find(taller.getEstadoId());
+        if (e != null) {
+            return "w3-block w3-center w3-" + e.getColor();
         }
+        return "";
     }
-*/
+
+    public List<Estado> getLstEstados() {
+        return lstEstados;
+    }
+
+    public void setLstEstados(List<Estado> lstEstados) {
+        this.lstEstados = lstEstados;
+    }
+
+    // CRUD Methods
+    public void create() {
+        tallerService.create(taller);
+        lstTalleres.add(taller);
+        taller = new Taller();
+    }
+
+    public void update() {
+
+    }
+
+    public void delete(Taller taller) {
+        tallerService.delete(taller);
+        lstTalleres.remove(taller);
+    }
 }

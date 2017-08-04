@@ -17,12 +17,12 @@ public class EstadoService {
     @Inject
     private EntityManager em;
 
-    public void create(Estado estado) throws Exception {
+    public void create(Estado estado) {
         log.info("Registering " + estado.getName());
         em.persist(estado);
     }
 
-    public List<Estado> findAll() throws Exception {
+    public List<Estado> findAll() {
         return em.createQuery("from Estado").getResultList();
     }
 
@@ -33,5 +33,9 @@ public class EstadoService {
 
     public void update(Estado estado) {
         em.merge(estado);
+    }
+
+    public Estado find(Integer estadoId) {
+        return em.find(Estado.class, estadoId);
     }
 }
