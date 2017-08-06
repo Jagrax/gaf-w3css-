@@ -1,77 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                template="/WEB-INF/templates/w3_interior_design.xhtml">
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                template="/WEB-INF/templates/w3css_templates_analytics.xhtml">
+    <ui:define name="menu">
+        <a href="cortesEdit.jsf" class="w3-bar-item w3-button w3-padding w3-blue">Cortes</a>
+        <a href="estadosEdit.jsf" class="w3-bar-item w3-button w3-padding">Estados</a>
+        <a href="talleresEdit.jsf" class="w3-bar-item w3-button w3-padding">Talleres</a>
+    </ui:define>
     <ui:define name="content">
-        <h:form id="reg">
-            <h2 style="text-align: center">Nuevo corte</h2>
-            <h:panelGrid columns="3" columnClasses="titleCell">
-                <h:outputLabel for="name" value="Nombre:" />
-                <h:inputText id="name" value="#{newCorte.name}" required="true" />
-                <h:message for="name" errorClass="invalid" />
+        <div class="w3-container">
+            <h5>Cortes</h5>
+            <button class="w3-button w3-margin-bottom w3-blue" onclick="document.getElementById('add').style.display='block'"><i class="fa fa-plus"></i>  Agregar corte</button>
 
-                <h:outputLabel for="clothesQuantity" value="Cant. de prendas:" />
-                <h:inputText id="clothesQuantity" value="#{newCorte.clothesQuantity}" required="true" />
-                <h:message for="clothesQuantity" errorClass="invalid" />
+            <div id="add" class="w3-modal">
+                <div class="w3-modal-content w3-card-4 w3-animate-zoom">
+                    <header class="w3-container w3-blue">
+                        <span onclick="document.getElementById('add').style.display='none'" class="w3-button w3-display-topright w3-hover-red" title="Cerrar ventana"><i class="fa fa-remove fa-fw"></i></span>
+                        <h4>Nuevo corte</h4>
+                    </header>
+                    <h:form styleClass="w3-container w3-padding-small">
+                        <div class="w3-row">
+                            <div class="w3-container w3-half">
+                                <label for="name">Nombre del corte</label>
+                                <h:inputText id="name" value="#{corteController.corte.name}" a:required="true" styleClass="w3-input w3-margin-bottom" />
+                            </div>
+                            <div class="w3-container w3-half">
+                                <label for="clothesQuantity">Cant. de prendas</label>
+                                <h:inputText id="clothesQuantity" value="#{corteController.corte.clothesQuantity}" a:required="true" styleClass="w3-input w3-margin-bottom" />
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-container w3-half">
+                                <label for="comments">Comentarios</label>
+                                <h:inputText id="comments" value="#{corteController.corte.comments}" a:required="true" styleClass="w3-input w3-margin-bottom" />
+                            </div>
+                            <div class="w3-container w3-half">
+                                <label for="fromSize">Desde el talle</label>
+                                <h:inputText id="fromSize" value="#{corteController.corte.fromSize}" a:required="true" styleClass="w3-input w3-margin-bottom" />
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-container w3-half">
+                                <label for="toSize">Hasta el talle</label>
+                                <h:inputText id="toSize" value="#{corteController.corte.toSize}" a:required="true" styleClass="w3-input w3-margin-bottom" />
+                            </div>
+                            <div class="w3-container w3-half">
+                                <label for="tallerId">Taller</label>
+                                <h:selectOneMenu id="tallerId" value="#{corteController.corte.tallerId}" a:required="true" styleClass="w3-select">
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione un taller" />
+                                    <f:selectItems value="#{corteController.lstTalleresDisponibles}" var="taller" itemValue="#{taller.id}" itemLabel="#{taller.name}" />
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-container w3-half">
+                                <label for="firstDueDate">Fecha del Primer Vencimiento</label>
+                                <h:inputText id="firstDueDate" value="#{corteController.corte.firstDueDate}" a:required="true" a:placeholder="dd/MM/yyyy" styleClass="w3-input w3-margin-bottom">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:inputText>
+                            </div>
+                            <div class="w3-container w3-half">
+                                <label for="secondDueDate">Fecha del Segundo Vencimiento</label>
+                                <h:inputText id="secondDueDate" value="#{corteController.corte.secondDueDate}" a:required="true" a:placeholder="dd/MM/yyyy" styleClass="w3-input w3-margin-bottom">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:inputText>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-container w3-half">
+                                <label for="price">Precio por unidad</label>
+                                <h:inputText id="price" value="#{corteController.corte.price}" a:required="true" styleClass="w3-input w3-margin-bottom" />
+                            </div>
+                            <div class="w3-container w3-half">
+                                <label for="hojaDeCorte">Hoja de Corte</label>
+                                <h:inputText id="hojaDeCorte" value="#{corteController.corte.hojaDeCorte}" a:required="true" styleClass="w3-input w3-margin-bottom" />
+                            </div>
+                        </div>
+                        <h:commandButton action="#{corteController.create}" styleClass="w3-btn w3-block w3-blue w3-margin-top" value="Crear" />
+                    </h:form>
+                </div>
+            </div>
 
-                <h:outputLabel for="comments" value="Comentarios:" />
-                <h:inputText id="comments" value="#{newCorte.comments}" required="true"/>
-                <h:message for="comments" errorClass="invalid" />
+            <h:form styleClass="w3-responsive">
+                <h:dataTable value="#{corteController.lstCortes}" var="corte" styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom" rendered="#{not empty corteController.lstCortes}"
+                             headerClass="w3-blue w3-center">
+                    <h:column><h:commandLink action="#{corteController.delete(corte)}"><i class="fa fa-trash fa-fw"></i></h:commandLink></h:column>
+                    <h:column><f:facet name="header">Corte</f:facet>#{corte.name}</h:column>
+                    <h:column><f:facet name="header">Cantidad</f:facet><h:outputText value="#{corte.clothesQuantity}" styleClass="w3-right" /></h:column>
+                    <h:column><f:facet name="header">Primer Vencimiento</f:facet>
+                        <h:outputText value="#{corte.firstDueDate}" styleClass="w3-block w3-center">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </h:column>
+                    <h:column><f:facet name="header">Segundo Vencimiento</f:facet>
+                        <h:outputText value="#{corte.secondDueDate}" styleClass="w3-block w3-center">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </h:column>
+                    <h:column><f:facet name="header">Precio</f:facet>
+                        <h:outputText value="#{corte.price}" styleClass="w3-right">
+                            <f:convertNumber currencySymbol="$" type="currency" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column><f:facet name="header">Taller</f:facet>#{corte.tallerId}</h:column>
+                    <h:column><f:facet name="header">Desde el talle</f:facet>
+                        <h:outputText value="#{corte.fromSize}" styleClass="w3-block w3-center">
+                            <f:convertNumber integerOnly="true"/>
+                        </h:outputText>
+                    </h:column>
+                    <h:column><f:facet name="header">Hasta el talle</f:facet>
+                        <h:outputText value="#{corte.toSize}" styleClass="w3-block w3-center">
+                            <f:convertNumber integerOnly="true"/>
+                        </h:outputText>
+                    </h:column>
+                    <h:column><f:facet name="header">Hoja de Corte</f:facet>#{corte.hojaDeCorte}</h:column>
+                    <h:column><f:facet name="header">Comentarios</f:facet>#{corte.comments}</h:column>
+                    <h:column><f:facet name="header">Prendas entregadas</f:facet><h:outputText value="#{corte.clothesDelivered}" styleClass="w3-right" /></h:column>
+                    <h:column><f:facet name="header">Estado</f:facet><h:outputText styleClass="#{commonController.getStyleClassForEstado(corte.estadoId)}" value="#{commonController.getEstado(corte.estadoId).name}"/></h:column>
+                </h:dataTable>
+            </h:form>
 
-                <h:outputLabel for="fromSize" value="Desde el talle:" />
-                <h:inputText id="fromSize" value="#{newCorte.fromSize}" />
-                <h:message for="fromSize" errorClass="invalid" />
-
-                <h:outputLabel for="toSize" value="Hasta el talle:" />
-                <h:inputText id="toSize" value="#{newCorte.toSize}" />
-                <h:message for="toSize" errorClass="invalid" />
-
-                <h:outputLabel for="taller" value="Taller:" />
-                <h:selectOneMenu id="taller" value="#{newCorte.tallerId}">
-                    <f:selectItems value="#{corteController.talleresDisponibles}" var="taller" itemValue="#{taller.id}" itemLabel="#{taller.name}" />
-                </h:selectOneMenu>
-                <h:message for="taller" errorClass="invalid" />
-
-                <h:outputLabel for="firstDueDate" value="Fecha del Primer Vencimiento:" />
-                <h:inputText id="firstDueDate" value="#{newCorte.firstDueDate}">
-                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                </h:inputText>
-                <h:message for="firstDueDate" errorClass="invalid" />
-
-                <h:outputLabel for="secondDueDate" value="Fecha del Segundo Vencimiento:" />
-                <h:inputText id="secondDueDate" value="#{newCorte.secondDueDate}">
-                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                </h:inputText>
-                <h:message for="secondDueDate" errorClass="invalid" />
-
-                <h:outputLabel for="price" value="Precio por unidad:" />
-                <h:inputText id="price" value="#{newCorte.price}"/>
-                <h:message for="price" errorClass="invalid" />
-
-                <h:outputLabel for="hojaDeCorte" value="Hoja de Corte:" />
-                <h:inputText id="hojaDeCorte" value="#{newCorte.hojaDeCorte}"/>
-                <h:message for="hojaDeCorte" errorClass="invalid" />
-            </h:panelGrid>
-
-            <p>
-                <h:panelGrid columns="2">
-                    <h:commandButton id="register"
-                                     action="#{corteController.create}"
-                                     value="Register" styleClass="register" />
-                    <h:messages styleClass="messages"
-                                errorClass="invalid" infoClass="valid"
-                                warnClass="warning" globalOnly="true" />
-                </h:panelGrid>
-            </p>
-        </h:form>
+            <h:panelGroup rendered="#{empty corteController.lstCortes}" styleClass="w3-block w3-border w3-border-yellow w3-pale-yellow w3-padding w3-margin-bottom w3-round">
+                No se encontraron cortes
+            </h:panelGroup>
+        </div>
     </ui:define>
 </ui:composition>
-</html>

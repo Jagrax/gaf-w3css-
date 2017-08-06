@@ -5,6 +5,11 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 template="/WEB-INF/templates/w3css_templates_analytics.xhtml">
+    <ui:define name="menu">
+        <a href="cortesEdit.jsf" class="w3-bar-item w3-button w3-padding">Cortes</a>
+        <a href="estadosEdit.jsf" class="w3-bar-item w3-button w3-padding">Estados</a>
+        <a href="talleresEdit.jsf" class="w3-bar-item w3-button w3-padding w3-blue">Talleres</a>
+    </ui:define>
     <ui:define name="content">
         <div class="w3-container">
             <h5>Talleres</h5>
@@ -55,7 +60,7 @@
                 </div>
             </div>
 
-            <h:form>
+            <h:form styleClass="w3-responsive">
                 <h:dataTable value="#{tallerController.lstTalleres}" var="taller" styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom" rendered="#{not empty tallerController.lstTalleres}"
                              headerClass="w3-blue w3-center">
                     <h:column><h:commandLink action="#{tallerController.delete(taller)}"><i class="fa fa-trash fa-fw"></i></h:commandLink></h:column>
