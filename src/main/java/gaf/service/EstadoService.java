@@ -17,22 +17,10 @@ public class EstadoService {
     @Inject
     private EntityManager em;
 
-    public void create(Estado estado) {
-        log.info("Registering " + estado.getName());
-        em.persist(estado);
-    }
-
     public List<Estado> findAll() {
-        return em.createQuery("from Estado").getResultList();
-    }
-
-    public void delete(Estado estado) {
-        log.info("Deleting " + estado.getName());
-        em.remove(em.contains(estado) ? estado : em.merge(estado));
-    }
-
-    public void update(Estado estado) {
-        em.merge(estado);
+        List result = em.createQuery("from Estado").getResultList();
+        log.info("Se encontraron " + result.size() + " estados.");
+        return result;
     }
 
     public Estado find(Integer estadoId) {

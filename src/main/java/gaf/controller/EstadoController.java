@@ -1,24 +1,29 @@
 package gaf.controller;
 
 import gaf.entity.Estado;
-import gaf.service.EstadoService;
+import gaf.entity.Estados;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
-import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @Model
 public class EstadoController {
 
     private List<Estado> lstEstados;
-    private Estado estado;
-    @Inject private EstadoService estadoService;
 
     @PostConstruct
     public void init() {
-        lstEstados = estadoService.findAll();
-        estado = new Estado();
+        //lstEstados = estadoService.findAll();
+        lstEstados = new ArrayList<>();
+        for (Estados e : Estados.values()) {
+            Estado estado = new Estado();
+            estado.setId(e.getId());
+            estado.setName(e.getName());
+            estado.setColor(e.getColor());
+            lstEstados.add(estado);
+        }
     }
 
     public List<Estado> getLstEstados() {
@@ -27,29 +32,5 @@ public class EstadoController {
 
     public void setLstEstados(List<Estado> lstEstados) {
         this.lstEstados = lstEstados;
-    }
-
-    public Estado getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
-
-    // CRUD Methods
-    public void create() {
-        estadoService.create(estado);
-        lstEstados.add(estado);
-        estado = new Estado();
-    }
-
-    public void update() {
-
-    }
-
-    public void delete(Estado estado) {
-        estadoService.delete(estado);
-        lstEstados.remove(estado);
     }
 }
