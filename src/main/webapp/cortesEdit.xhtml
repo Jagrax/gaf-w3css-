@@ -6,9 +6,9 @@
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 template="/WEB-INF/templates/w3css_templates_analytics.xhtml">
     <ui:define name="menu">
-        <a href="cortesEdit.jsf" class="w3-bar-item w3-button w3-padding w3-blue">Cortes</a>
-        <a href="estadosEdit.jsf" class="w3-bar-item w3-button w3-padding">Estados</a>
-        <a href="talleresEdit.jsf" class="w3-bar-item w3-button w3-padding">Talleres</a>
+        <a href="cortesEdit.xhtml" class="w3-bar-item w3-button w3-padding w3-blue">Cortes</a>
+        <a href="estadosEdit.xhtml" class="w3-bar-item w3-button w3-padding">Estados</a>
+        <a href="talleresEdit.xhtml" class="w3-bar-item w3-button w3-padding">Talleres</a>
     </ui:define>
     <ui:define name="content">
         <div class="w3-container">
@@ -79,7 +79,9 @@
                                 <h:inputText id="hojaDeCorte" value="#{corteController.corte.hojaDeCorte}" a:required="true" styleClass="w3-input w3-margin-bottom" />
                             </div>
                         </div>
-                        <h:commandButton action="#{corteController.create}" styleClass="w3-btn w3-block w3-blue w3-margin-top" value="Crear" />
+                        <h:commandButton action="#{corteController.create}" styleClass="w3-btn w3-block w3-blue w3-margin-top" value="Crear">
+                            <f:ajax execute="@all" render="@all" />
+                        </h:commandButton>
                     </h:form>
                 </div>
             </div>
@@ -87,39 +89,80 @@
             <h:form styleClass="w3-responsive">
                 <h:dataTable value="#{corteController.lstCortes}" var="corte" styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom" rendered="#{not empty corteController.lstCortes}"
                              headerClass="w3-blue w3-center">
-                    <h:column><h:commandLink action="#{corteController.delete(corte)}"><i class="fa fa-trash fa-fw"></i></h:commandLink></h:column>
-                    <h:column><f:facet name="header">Corte</f:facet>#{corte.name}</h:column>
-                    <h:column><f:facet name="header">Cantidad</f:facet><h:outputText value="#{corte.clothesQuantity}" styleClass="w3-right" /></h:column>
-                    <h:column><f:facet name="header">Primer Vencimiento</f:facet>
+                    <h:column>
+                        <h:commandLink action="#{corteController.delete(corte)}"><i class="fa fa-trash fa-fw"></i></h:commandLink>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Corte</f:facet>
+                        <h:outputText value="#{corte.name}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Cantidad</f:facet>
+                        <h:outputText value="#{corte.clothesQuantity}" styleClass="w3-right" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Primer Vencimiento</f:facet>
                         <h:outputText value="#{corte.firstDueDate}" styleClass="w3-block w3-center">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </h:column>
-                    <h:column><f:facet name="header">Segundo Vencimiento</f:facet>
+
+                    <h:column>
+                        <f:facet name="header">Segundo Vencimiento</f:facet>
                         <h:outputText value="#{corte.secondDueDate}" styleClass="w3-block w3-center">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </h:column>
-                    <h:column><f:facet name="header">Precio</f:facet>
+
+                    <h:column>
+                        <f:facet name="header">Precio</f:facet>
                         <h:outputText value="#{corte.price}" styleClass="w3-right">
                             <f:convertNumber currencySymbol="$" type="currency" />
                         </h:outputText>
                     </h:column>
-                    <h:column><f:facet name="header">Taller</f:facet>#{corte.tallerId}</h:column>
-                    <h:column><f:facet name="header">Desde el talle</f:facet>
+
+                    <h:column>
+                        <f:facet name="header">Taller</f:facet>
+                        <h:outputText value="#{corte.tallerId}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Desde el talle</f:facet>
                         <h:outputText value="#{corte.fromSize}" styleClass="w3-block w3-center">
                             <f:convertNumber integerOnly="true"/>
                         </h:outputText>
                     </h:column>
-                    <h:column><f:facet name="header">Hasta el talle</f:facet>
+
+                    <h:column>
+                        <f:facet name="header">Hasta el talle</f:facet>
                         <h:outputText value="#{corte.toSize}" styleClass="w3-block w3-center">
                             <f:convertNumber integerOnly="true"/>
                         </h:outputText>
                     </h:column>
-                    <h:column><f:facet name="header">Hoja de Corte</f:facet>#{corte.hojaDeCorte}</h:column>
-                    <h:column><f:facet name="header">Comentarios</f:facet>#{corte.comments}</h:column>
-                    <h:column><f:facet name="header">Prendas entregadas</f:facet><h:outputText value="#{corte.clothesDelivered}" styleClass="w3-right" /></h:column>
-                    <h:column><f:facet name="header">Estado</f:facet><h:outputText styleClass="#{commonController.getStyleClassForEstado(corte.estadoId)}" value="#{commonController.getEstado(corte.estadoId).name}"/></h:column>
+
+                    <h:column>
+                        <f:facet name="header">Hoja de Corte</f:facet>
+                        <h:outputText value="#{corte.hojaDeCorte}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Comentarios</f:facet>
+                        <h:outputText value="#{corte.comments}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Prendas entregadas</f:facet>
+                        <h:outputText value="#{corte.clothesDelivered}" styleClass="w3-right" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Estado</f:facet>
+                        <h:outputText styleClass="#{commonController.getStyleClassForEstado(corte.estadoId)}"
+                                      value="#{commonController.getEstado(corte.estadoId).name}"/>
+                    </h:column>
                 </h:dataTable>
             </h:form>
 

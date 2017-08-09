@@ -1,16 +1,17 @@
 package gaf.controller;
 
 import gaf.entity.Estado;
-import gaf.entity.Taller;
 import gaf.service.EstadoService;
 
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
-@Model
+@ViewScoped
+@ManagedBean(name = "commonController")
 public class CommonController {
 
-    @Inject private EstadoService estadoService;
+    @EJB private EstadoService estadoService;
 
     /**
      * Devuelve un object Estado correspondiente al id

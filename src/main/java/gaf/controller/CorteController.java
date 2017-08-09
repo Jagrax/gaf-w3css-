@@ -6,22 +6,20 @@ import gaf.service.CorteService;
 import gaf.service.TallerService;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
-import javax.enterprise.inject.Produces;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import java.util.List;
 
-@Model
+@ViewScoped
+@ManagedBean(name = "corteController")
 public class CorteController {
 
     private List<Corte> lstCortes;
     private Corte corte;
-    @Inject private CorteService corteService;
+    @EJB private CorteService corteService;
     private List<Taller> lstTalleresDisponibles;
-    @Inject private TallerService tallerService;
+    @EJB private TallerService tallerService;
 
     @PostConstruct
     public void init() {
@@ -47,10 +45,6 @@ public class CorteController {
         corteService.create(corte);
         lstCortes.add(corte);
         corte = new Corte();
-    }
-
-    public void update() {
-
     }
 
     public void delete(Corte corte) {

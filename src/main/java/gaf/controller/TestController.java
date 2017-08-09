@@ -6,17 +6,25 @@ import gaf.service.EstadoService;
 import gaf.service.TallerService;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.inject.Model;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import java.util.List;
 
-@Model
+@ViewScoped
+@ManagedBean(name = "testController")
 public class TestController {
 
     private List<Taller> lstTalleres;
     private Taller taller;
-    @Inject private TallerService tallerService;
-    @Inject private EstadoService estadoService;
+
+    @EJB
+    private TallerService tallerService;
+
+    @EJB
+    private EstadoService estadoService;
 
     @PostConstruct
     public void init() {
@@ -59,10 +67,6 @@ public class TestController {
         tallerService.create(taller);
         lstTalleres.add(taller);
         taller = new Taller();
-    }
-
-    public void update() {
-
     }
 
     public void delete(Taller taller) {

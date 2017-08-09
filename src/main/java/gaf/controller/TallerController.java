@@ -6,18 +6,20 @@ import gaf.service.EstadoService;
 import gaf.service.TallerService;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import java.util.List;
 
-@Model
+@ViewScoped
+@ManagedBean(name = "tallerController")
 public class TallerController {
 
     private List<Taller> lstTalleres;
     private List<Estado> lstEstados;
     private Taller taller;
-    @Inject private TallerService tallerService;
-    @Inject private EstadoService estadoService;
+    @EJB private TallerService tallerService;
+    @EJB private EstadoService estadoService;
 
     @PostConstruct
     public void init() {
