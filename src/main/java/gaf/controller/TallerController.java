@@ -71,10 +71,6 @@ public class TallerController {
         taller = new Taller();
     }
 
-    public void update() {
-
-    }
-
     public void delete(Taller taller) {
         tallerService.delete(taller);
         lstTalleres.remove(taller);

@@ -1,55 +1,65 @@
-<!--
-    JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
-    contributors by the @authors tag. See the copyright.txt in the
-    distribution for a full listing of individual contributors.
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-    http://www.apache.org/licenses/LICENSE-2.0
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
--->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>GAF</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <h:outputStylesheet name="css/screen.css" />
+    <title><ui:insert name="title">GAF</ui:insert></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <h:outputStylesheet name="css/w3.css" />
 </h:head>
-<h:body>
-    <div id="container">
-        <div class="dualbrand">
-            <img src="resources/gfx/dualbrand_logo.png" />
-        </div>
-        <div id="content">
-            <ui:insert name="content">
-                    [Template content will be inserted here]
-         </ui:insert>
-        </div>
-        <div id="aside">
-            <p>Learn more about JBoss WildFly.</p>
-            <ul>
-                <li><a
-                    href="https://github.com/wildfly/quickstart/blob/master/guide/Introduction.asciidoc">Getting
-                        Started Developing Applications Guide</a></li>
-                <li><a href="http://www.wildfly.org/">Community
-                        Project Information</a></li>
-            </ul>
-        </div>
-        <div id="footer">
-            <p>
-                This project was generated from a Maven archetype from
-                WildFly.<br />
-            </p>
-        </div>
+<h:body styleClass="w3-pale-green">
+    <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+        <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+        <span class="w3-bar-item w3-right">GAF</span>
     </div>
+
+    <nav class="w3-sidebar w3-collapse w3-white" style="z-index:3;width:300px;" id="mySidebar"><br />
+        <div class="w3-container">
+            <h5>Administrar</h5>
+        </div>
+        <div class="w3-bar-block">
+            <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Cerrar</a>
+            <ui:insert name="menu">
+                <a href="cortesEdit.jsf" class="w3-bar-item w3-button w3-padding">Cortes</a>
+                <a href="estadosEdit.jsf" class="w3-bar-item w3-button w3-padding">Estados</a>
+                <a href="talleresEdit.jsf" class="w3-bar-item w3-button w3-padding">Talleres</a>
+            </ui:insert>
+        </div>
+    </nav>
+
+    <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+    <div class="w3-main" style="margin-left:300px;margin-top:43px;">
+        <ui:insert name="content">
+            [Template content will be inserted here]
+        </ui:insert>
+    </div>
+
+    <script>
+        // Get the Sidebar
+        var mySidebar = document.getElementById("mySidebar");
+
+        // Get the DIV with overlay effect
+        var overlayBg = document.getElementById("myOverlay");
+
+        // Toggle between showing and hiding the sidebar, and add overlay effect
+        function w3_open() {
+            if (mySidebar.style.display === 'block') {
+                mySidebar.style.display = 'none';
+                overlayBg.style.display = "none";
+            } else {
+                mySidebar.style.display = 'block';
+                overlayBg.style.display = "block";
+            }
+        }
+
+        // Close the sidebar with the close button
+        function w3_close() {
+            mySidebar.style.display = "none";
+            overlayBg.style.display = "none";
+        }
+    </script>
 </h:body>
 </html>

@@ -7,70 +7,34 @@ import gaf.service.TallerService;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.inject.Model;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import java.util.List;
 
 @ViewScoped
 @ManagedBean(name = "testController")
 public class TestController {
 
-    private List<Taller> lstTalleres;
-    private Taller taller;
+    private String username;
 
-    @EJB
-    private TallerService tallerService;
-
-    @EJB
-    private EstadoService estadoService;
-
-    @PostConstruct
-    public void init() {
-        lstTalleres = tallerService.findAll();
-        taller = new Taller();
+    public String getUsername() {
+        return username;
     }
 
-    public List<Taller> getLstTalleres() {
-        return lstTalleres;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setLstTalleres(List<Taller> lstTalleres) {
-        this.lstTalleres = lstTalleres;
-    }
-
-    public Taller getTaller() {
-        return taller;
-    }
-
-    public void setTaller(Taller taller) {
-        this.taller = taller;
-    }
-
-    public Estado getEstado(Integer id) {
-        return estadoService.find(id);
-    }
-
-    public String getColorForRow() {
-        StringBuilder result = new StringBuilder();
-        String coma = "";
-        for (Taller t : lstTalleres) {
-            result.append(coma + "w3-" + estadoService.find(t.getEstadoId()).getColor());
-            coma = ",";
+    public void save() {
+        if (username != null && !username.trim().equals("")) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Welcome " + username));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Complete el usuario", "El campo usuario es obligatorio"));
         }
-        return result.toString();
-    }
-
-    // CRUD Methods
-    public void create() {
-        tallerService.create(taller);
-        lstTalleres.add(taller);
-        taller = new Taller();
-    }
-
-    public void delete(Taller taller) {
-        tallerService.delete(taller);
-        lstTalleres.remove(taller);
     }
 }
