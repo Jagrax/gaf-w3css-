@@ -20,6 +20,8 @@ public class Estado implements Serializable {
     @NotNull
     private String color;
 
+    private String entity;
+
     public Integer getId() {
         return id;
     }
@@ -42,5 +44,13 @@ public class Estado implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getEntity() {
+        return entity;
+    }
+
+    public void setEntity(String entity) {
+        this.entity = entity;
     }
 }

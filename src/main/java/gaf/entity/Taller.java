@@ -1,20 +1,17 @@
 package gaf.entity;
 
-import gaf.service.EstadoService;
-
-import javax.inject.Inject;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Talleres")
+@Table(name = "TALLERES")
 public class Taller implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotNull
     private String name;
@@ -22,25 +19,28 @@ public class Taller implements Serializable {
     @NotNull
     private String address;
 
+    @NotNull
+    @Column(name = "estado")
+    private Integer estadoId;
+
+    @NotNull
     @Column(name = "primary_phone")
     private String primaryPhone;
 
     @Column(name = "secondary_phone")
     private String secondaryPhone;
 
-    @NotNull
-    @Column(name = "quantity_employees")
-    private Integer quantityEmployees;
+    @Column(name = "employees_quantity")
+    private Integer employees_quantity;
 
-    @NotNull
-    @Column(name = "estado")
-    private Integer estadoId;
+    @Column(name = "score")
+    private Double score;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -76,12 +76,12 @@ public class Taller implements Serializable {
         this.secondaryPhone = secondaryPhone;
     }
 
-    public Integer getQuantityEmployees() {
-        return quantityEmployees;
+    public Integer getEmployees_quantity() {
+        return employees_quantity;
     }
 
-    public void setQuantityEmployees(Integer quantityEmployees) {
-        this.quantityEmployees = quantityEmployees;
+    public void setEmployees_quantity(Integer quantityEmployees) {
+        this.employees_quantity = quantityEmployees;
     }
 
     public Integer getEstadoId() {
@@ -90,5 +90,27 @@ public class Taller implements Serializable {
 
     public void setEstadoId(Integer estadoId) {
         this.estadoId = estadoId;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
+
+    @Override
+    public String toString() {
+        return "Taller{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", estadoId=" + estadoId +
+                ", primaryPhone='" + primaryPhone + '\'' +
+                ", secondaryPhone='" + secondaryPhone + '\'' +
+                ", employees_quantity=" + employees_quantity +
+                ", score=" + score +
+                '}';
     }
 }

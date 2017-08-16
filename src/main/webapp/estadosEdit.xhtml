@@ -6,23 +6,19 @@
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="menu">
         <a href="cortesEdit.xhtml" class="w3-bar-item w3-button w3-padding">Cortes</a>
-        <a href="estadosEdit.xhtml" class="w3-bar-item w3-button w3-padding w3-blue">Estados</a>
+        <a href="estadosEdit.xhtml" class="w3-bar-item w3-button w3-padding w3-green">Estados</a>
         <a href="talleresEdit.xhtml" class="w3-bar-item w3-button w3-padding">Talleres</a>
     </ui:define>
     <ui:define name="content">
         <div class="w3-container">
             <h5>Estados</h5>
             <h:form styleClass="w3-responsive">
-                <h:dataTable value="#{estadoController.lstEstados}" var="estado" styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom" rendered="#{not empty estadoController.lstEstados}"
-                             headerClass="w3-blue w3-center">
+                <h:dataTable value="#{commonController.lstAllEstados}" var="estado" styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom"
+                             headerClass="w3-green w3-center">
                     <h:column><f:facet name="header">Estado</f:facet>#{estado.name}</h:column>
                     <h:column><f:facet name="header">Color</f:facet><h:outputText value="#{estado.color}" styleClass="w3-block w3-center w3-text-#{estado.color}" /></h:column>
                 </h:dataTable>
             </h:form>
-
-            <h:panelGroup rendered="#{empty estadoController.lstEstados}" styleClass="w3-block w3-border w3-border-yellow w3-pale-yellow w3-padding w3-margin-bottom w3-round">
-                No se encontraron estados
-            </h:panelGroup>
         </div>
     </ui:define>
 </ui:composition>

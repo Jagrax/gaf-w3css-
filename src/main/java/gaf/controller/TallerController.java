@@ -1,8 +1,6 @@
 package gaf.controller;
 
-import gaf.entity.Estado;
 import gaf.entity.Taller;
-import gaf.service.EstadoService;
 import gaf.service.TallerService;
 
 import javax.annotation.PostConstruct;
@@ -16,15 +14,12 @@ import java.util.List;
 public class TallerController {
 
     private List<Taller> lstTalleres;
-    private List<Estado> lstEstados;
     private Taller taller;
     @EJB private TallerService tallerService;
-    @EJB private EstadoService estadoService;
 
     @PostConstruct
     public void init() {
         lstTalleres = tallerService.findAll();
-        lstEstados = estadoService.findAll();
         taller = new Taller();
     }
 
@@ -42,26 +37,6 @@ public class TallerController {
 
     public void setTaller(Taller taller) {
         this.taller = taller;
-    }
-
-    public Estado getEstado(Integer id) {
-        return estadoService.find(id);
-    }
-
-    public String getColor(Taller taller) {
-        Estado e = estadoService.find(taller.getEstadoId());
-        if (e != null) {
-            return "w3-block w3-center w3-" + e.getColor();
-        }
-        return "";
-    }
-
-    public List<Estado> getLstEstados() {
-        return lstEstados;
-    }
-
-    public void setLstEstados(List<Estado> lstEstados) {
-        this.lstEstados = lstEstados;
     }
 
     // CRUD Methods

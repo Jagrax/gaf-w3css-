@@ -2,13 +2,12 @@ package gaf.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Cortes")
+@Table(name = "CORTES")
 public class Corte implements Serializable {
 
     @Id
@@ -18,24 +17,19 @@ public class Corte implements Serializable {
     @NotNull
     private String name;
 
+    private Double price;
+
     @NotNull
     @Column(name = "clothes_quantity")
     private Integer clothesQuantity;
 
     @NotNull
-    @Column(name = "first_due_date")
-    private Date firstDueDate;
+    @Column(name = "creation_date")
+    private Date creationDate;
 
     @NotNull
-    @Column(name = "second_due_date")
-    private Date secondDueDate;
-
-    @NotNull
-    private Double price;
-
-    @NotNull
-    @Column(name = "taller")
-    private Long tallerId;
+    @Column(name = "due_date")
+    private Date dueDate;
 
     @NotNull
     @Column(name = "from_size")
@@ -52,12 +46,7 @@ public class Corte implements Serializable {
     @Column(name = "estado")
     private Integer estadoId;
 
-    @Column(name = "comments")
     private String comments;
-
-    @NotNull
-    @Column(name = "clothes_delivered")
-    private Integer clothesDelivered;
 
     public Integer getId() {
         return id;
@@ -83,20 +72,20 @@ public class Corte implements Serializable {
         this.clothesQuantity = clothesQuantity;
     }
 
-    public Date getFirstDueDate() {
-        return firstDueDate;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setFirstDueDate(Date firstDueDate) {
-        this.firstDueDate = firstDueDate;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
-    public Date getSecondDueDate() {
-        return secondDueDate;
+    public Date getDueDate() {
+        return dueDate;
     }
 
-    public void setSecondDueDate(Date secondDueDate) {
-        this.secondDueDate = secondDueDate;
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 
     public Double getPrice() {
@@ -105,14 +94,6 @@ public class Corte implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public Long getTallerId() {
-        return tallerId;
-    }
-
-    public void setTallerId(Long tallerId) {
-        this.tallerId = tallerId;
     }
 
     public Double getFromSize() {
@@ -155,11 +136,20 @@ public class Corte implements Serializable {
         this.comments = comments;
     }
 
-    public Integer getClothesDelivered() {
-        return clothesDelivered;
-    }
-
-    public void setClothesDelivered(Integer clothesDelivered) {
-        this.clothesDelivered = clothesDelivered;
+    @Override
+    public String toString() {
+        return "Corte{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", clothesQuantity=" + clothesQuantity +
+                ", creationDate=" + creationDate +
+                ", dueDate=" + dueDate +
+                ", fromSize=" + fromSize +
+                ", toSize=" + toSize +
+                ", hojaDeCorte='" + hojaDeCorte + '\'' +
+                ", estadoId=" + estadoId +
+                ", comments='" + comments + '\'' +
+                '}';
     }
 }

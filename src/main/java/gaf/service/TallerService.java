@@ -1,12 +1,11 @@
 package gaf.service;
 
-import gaf.entity.Estado;
 import gaf.entity.Taller;
+import gaf.util.Estados;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -21,15 +20,27 @@ public class TallerService {
     private EntityManager em;
 
     public void create(Taller taller) {
-        log.info("Registering " + taller.getName());
+        log.info("[CREATE] " + taller);
         em.persist(taller);
     }
 
-    public List<Taller> findTalleresDisponibles() {
-        return em.createQuery("from Taller where estado = (select id from Estado where name = 'Disponible')").getResultList();
+    public void delete(Taller taller) {
+        log.info("[DELETE] " + taller);
+        em.remove(em.contains(taller) ? taller : em.merge(taller));
     }
 
-    public void updateEstado(Long tallerId, Integer estadoId) {
+    public List<Taller> findTalleresDisponibles() {
+        List<Taller> result;
+        try {
+            result = em.createQuery("from Taller where estado = " + Estados.TALLER_DISPONIBLE.getId()).getResultList();
+        } catch (Exception e) {
+            log.info("Se produjo un error al buscar los talleres disponibles." + e.getMessage());
+            result = new ArrayList<>();
+        }
+        return result;
+    }
+
+    public void updateEstado(Integer tallerId, Integer estadoId) {
         Taller taller = em.find(Taller.class, tallerId);
         taller.setEstadoId(estadoId);
         em.merge(taller);
@@ -44,14 +55,5 @@ public class TallerService {
             result = new ArrayList<>();
         }
         return result;
-    }
-
-    public void delete(Taller taller) {
-        log.info("Eliminando el taller " + taller.getName() + "[id=" + taller.getId() + "]");
-        em.remove(em.contains(taller) ? taller : em.merge(taller));
-    }
-
-    public void update(Taller taller) {
-        em.merge(taller);
     }
 }

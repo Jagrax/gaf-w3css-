@@ -2,16 +2,57 @@ package gaf.controller;
 
 import gaf.entity.Estado;
 import gaf.service.EstadoService;
+import gaf.util.Estados;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import java.util.ArrayList;
+import java.util.List;
 
 @ViewScoped
 @ManagedBean(name = "commonController")
 public class CommonController {
 
     @EJB private EstadoService estadoService;
+    private List<Estado> lstAllEstados;
+    private List<Estado> lstTalleresEstados;
+    private List<Estado> lstCortesAllEstados;
+
+    @PostConstruct
+    public void init() {
+        lstAllEstados = new ArrayList<>();
+        for (Estados estados : Estados.values()) {
+            Estado e = new Estado();
+            e.setId(estados.getId());
+            e.setName(estados.getName());
+            e.setColor(estados.getColor());
+            lstAllEstados.add(e);
+        }
+
+        lstTalleresEstados = new ArrayList<>();
+        for (Estados estados : Estados.values()) {
+            if (estados.getEntity().equals("TALLER")) {
+                Estado e = new Estado();
+                e.setId(estados.getId());
+                e.setName(estados.getName());
+                e.setColor(estados.getColor());
+                lstTalleresEstados.add(e);
+            }
+        }
+
+        lstCortesAllEstados = new ArrayList<>();
+        for (Estados estados : Estados.values()) {
+            if (estados.getEntity().equals("CORTE")) {
+                Estado e = new Estado();
+                e.setId(estados.getId());
+                e.setName(estados.getName());
+                e.setColor(estados.getColor());
+                lstCortesAllEstados.add(e);
+            }
+        }
+    }
 
     /**
      * Devuelve un object Estado correspondiente al id
@@ -32,4 +73,15 @@ public class CommonController {
         return "";
     }
 
+    public List<Estado> getLstAllEstados() {
+        return lstAllEstados;
+    }
+
+    public List<Estado> getLstTalleresEstados() {
+        return lstTalleresEstados;
+    }
+
+    public List<Estado> getLstCortesAllEstados() {
+        return lstCortesAllEstados;
+    }
 }
