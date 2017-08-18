@@ -26,6 +26,8 @@ public class CorteController {
         lstCortes = corteService.findAll();
         lstTalleresDisponibles = tallerService.findTalleresDisponibles();
         corte = new Corte();
+        corte.setFromSize(0.0);
+        corte.setToSize(100.0);
     }
 
     public List<Corte> getLstCortes() {

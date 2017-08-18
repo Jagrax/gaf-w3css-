@@ -19,38 +19,39 @@ public class CommonController {
     private List<Estado> lstAllEstados;
     private List<Estado> lstTalleresEstados;
     private List<Estado> lstCortesAllEstados;
+    private List<Integer> lstClothesSizes;
 
     @PostConstruct
     public void init() {
         lstAllEstados = new ArrayList<>();
+        lstTalleresEstados = new ArrayList<>();
+        lstCortesAllEstados = new ArrayList<>();
+        lstClothesSizes = new ArrayList<>();
+
         for (Estados estados : Estados.values()) {
             Estado e = new Estado();
             e.setId(estados.getId());
             e.setName(estados.getName());
             e.setColor(estados.getColor());
+            e.setEntity(estados.getEntity());
+            switch (e.getEntity()) {
+                case "TALLER": {
+                    lstTalleresEstados.add(e);
+                    break;
+                }
+                case "CORTE": {
+                    lstCortesAllEstados.add(e);
+                    break;
+                }
+                default: {
+                    System.err.println("La entity '" + e.getEntity() + "' no es valida.");
+                }
+            }
             lstAllEstados.add(e);
         }
 
-        lstTalleresEstados = new ArrayList<>();
-        for (Estados estados : Estados.values()) {
-            if (estados.getEntity().equals("TALLER")) {
-                Estado e = new Estado();
-                e.setId(estados.getId());
-                e.setName(estados.getName());
-                e.setColor(estados.getColor());
-                lstTalleresEstados.add(e);
-            }
-        }
-
-        lstCortesAllEstados = new ArrayList<>();
-        for (Estados estados : Estados.values()) {
-            if (estados.getEntity().equals("CORTE")) {
-                Estado e = new Estado();
-                e.setId(estados.getId());
-                e.setName(estados.getName());
-                e.setColor(estados.getColor());
-                lstCortesAllEstados.add(e);
-            }
+        for (int n = 0; n <= 100; n++) {
+            lstClothesSizes.add(n);
         }
     }
 
@@ -83,5 +84,9 @@ public class CommonController {
 
     public List<Estado> getLstCortesAllEstados() {
         return lstCortesAllEstados;
+    }
+
+    public List<Integer> getLstClothesSizes() {
+        return lstClothesSizes;
     }
 }

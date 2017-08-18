@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="menu">
+        <a href="cortesEdit.xhtml" class="w3-bar-item w3-button w3-padding w3-light-green">Cortes</a>
+        <a href="estadosEdit.xhtml" class="w3-bar-item w3-button w3-padding">Estados</a>
+        <a href="talleresEdit.xhtml" class="w3-bar-item w3-button w3-padding">Talleres</a>
+    </ui:define>
+    <ui:define name="content">
+        <style>
+            .mySlides {display:none}
+        </style>
+        <div class="w3-content w3-padding">
+            <h:form id="newCorte" styleClass="mySlides w3-card-4" style="margin:0 auto;width:500px">
+                <header class="w3-container w3-light-green w3-center">
+                    <h3>Nuevo corte</h3>
+                </header>
+                <div class="w3-container w3-white">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="3"><h:outputLabel for="corteName" value="Nombre del corte" /></td>
+                        </tr>
+                        <tr>
+                            <td><h:inputText id="corteName" value="#{corteController.corte.name}" a:required="true" styleClass="w3-input w3-border" /></td>
+                            <td class="w3-center"><h:outputLabel for="cortePrice" value="$" /></td>
+                            <td width="100"><h:inputText id="cortePrice" value="#{corteController.corte.price}" styleClass="w3-input w3-border" /></td>
+                        </tr>
+                    </table>
+                    <h:outputLabel for="corteClothesQuantity" value="Cant. de prendas" />
+                    <h:inputText id="corteClothesQuantity" value="#{corteController.corte.clothesQuantity}" a:required="true" styleClass="w3-input w3-border" />
+                    <h:message for="corteClothesQuantity" />
+
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                <h:outputLabel for="corteFromSize" value="Desde el talle" />
+                                <h:selectOneMenu id="corteFromSize" styleClass="w3-select w3-border" value="#{corteController.corte.fromSize}" a:required="true">
+                                    <f:selectItems value="#{commonController.lstClothesSizes}" />
+                                </h:selectOneMenu>
+                            </td>
+                            <td>
+                                <h:outputLabel for="corteToSize" value="Hasta el talle" />
+                                <h:selectOneMenu id="corteToSize" styleClass="w3-select w3-border" value="#{corteController.corte.toSize}" a:required="true">
+                                    <f:selectItems value="#{commonController.lstClothesSizes}" />
+                                </h:selectOneMenu>
+                            </td>
+                        </tr>
+                    </table>
+                    <h:outputLabel for="corteDueDate" value="F. Vencimiento" />
+                    <h:inputText id="corteDueDate" value="#{corteController.corte.dueDate}" a:required="true" a:placeholder="dd/MM/yyyy" styleClass="w3-input w3-border">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:inputText>
+
+                    <h:outputLabel for="corteEstadoId" value="Estado" />
+                    <h:selectOneMenu id="corteEstadoId" styleClass="w3-select w3-border" value="#{corteController.corte.estadoId}" a:required="true">
+                        <f:selectItem itemValue="#{null}" itemLabel="Seleccione un estado" />
+                        <f:selectItems value="#{commonController.lstCortesAllEstados}" var="estado" itemValue="#{estado.id}" itemLabel="#{estado.name}" />
+                    </h:selectOneMenu>
+
+                    <h:outputLabel for="corteHojaDeCorte" value="Hoja de Corte" />
+                    <h:inputText id="corteHojaDeCorte" value="#{corteController.corte.hojaDeCorte}" styleClass="w3-input w3-border" />
+
+                    <h:outputLabel for="corteComments" value="Comentarios" />
+                    <h:inputText id="corteComments" value="#{corteController.corte.comments}" styleClass="w3-input w3-border" />
+                </div>
+                <footer class="w3-padding w3-white">
+                    <h:commandButton type="button" styleClass="w3-button w3-block w3-light-green" value="Siguiente &gt;&gt;" onclick="if (validateForm()) plusDivs(1)">
+                        <f:ajax execute="@form" />
+                    </h:commandButton>
+                </footer>
+            </h:form>
+            <h:form styleClass="mySlides w3-card-4 w3-animate-top" style="margin:0 auto;width:500px">
+                <header class="w3-container w3-light-green w3-center">
+                    <h3>Gestionar talles</h3>
+                </header>
+                <div class="w3-container w3-white">
+                    LISTO!
+                </div>
+                <footer class="w3-padding w3-white">
+                    <h:commandButton type="button" styleClass="w3-button w3-light-gray" value="&lt;&lt; Anterior" onclick="plusDivs(-1)"/>
+                    <h:commandButton action="#{corteController.create}" styleClass="w3-button w3-light-green" value="Finalizar"/>
+                </footer>
+            </h:form>
+        </div>
+
+        <script>
+            var slideIndex = 1;
+            showDivs(slideIndex);
+
+            function validateForm() {
+                var elements = document.getElementById("newCorte").elements;
+
+                for (var i = 0, element; element = elements[i++];) {
+                    if (element.required &amp;&amp; element.value === "") {
+                        element.className += ' w3-border-red';
+                        alert("Este campo no puede estar vacio.");
+                        element.focus();
+                        return false;
+                    } else {
+                        if (element.className.match(/(?:^|\s)w3-border-red(?!\S)/)) {
+                            element.className = element.className.replace(/(?:^|\s)w3-border-red(?!\S)/g , '')
+                        }
+                    }
+                }
+
+                return true;
+            }
+            
+            function plusDivs(n) {
+                showDivs(slideIndex += n);
+            }
+
+            function showDivs(n) {
+                var i;
+                var x = document.getElementsByClassName("mySlides");
+                if (n &gt; x.length) {slideIndex = 1}
+                if (n &lt; 1) {slideIndex = x.length}
+                for (i = 0; i &lt; x.length; i++) {
+                    x[i].style.display = "none";
+                }
+                x[slideIndex-1].style.display = "block";
+            }
+        </script>
+    </ui:define>
+</ui:composition>
