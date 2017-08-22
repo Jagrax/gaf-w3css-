@@ -1,7 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/templates/default.xhtml">
+                xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/admin.xhtml">
+
+    <ui:define name="head">
+        <title>GAF</title>
+    </ui:define>
+
+    <ui:define name="logo-lg">
+        GAF
+    </ui:define>
+
+    <ui:define name="logo-mini">
+        GAF
+    </ui:define>
+
+    <ui:define name="menu">
+        <ul class="sidebar-menu">
+            <li>
+                <p:link href="/index.xhtml" onclick="clearBreadCrumbs()">
+                    <i class="fa fa-home"></i>
+                    <span>Inicio</span>
+                </p:link>
+            </li>
+            <li class="header">
+                Gestión
+            </li>
+            <li class="active">
+                <p:link href="/cortesEdit.jsf">
+                    <i class="fa fa-book"></i>
+                    <span>Cortes</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/estadosEdit.jsf">
+
+                    <span>Estados</span>
+                </p:link>
+            </li>
+            <li>
+                <p:link href="/talleresEdit.jsf">
+                    <i class="fa fa-industry"></i>
+                    <span>Talleres</span>
+                </p:link>
+            </li>
+        </ul>
+    </ui:define>
+
+    <ui:define name="top-menu">
+
+    </ui:define>
+
+    <ui:define name="title">
+        <h2>Cortes</h2>
+    </ui:define>
+
+    <ui:define name="body">
+        <p:dataTable var="taller" value="#{tallerController.lstTalleres}">
+            <p:column headerText="Taller">
+                #{taller.name}
+            </p:column>
+        </p:dataTable>
+    </ui:define>
+
+    <ui:define name="footer">
+        <a target="_blank" href="https://github.com/adminfaces/">GAF - Copyright (C) 2017 - AdminFaces</a>
+        <div class="pull-right hidden-xs" style="color: gray"><i>1.0.0</i></div>
+    </ui:define>
+
+
 </ui:composition>
